@@ -76,10 +76,9 @@ def bouw():
     index = open(os.path.join(SITE, 'index.html'), encoding='utf-8').read()
 
     # gedeelde onderdelen: spoedbalk, header, footer
-    spoedbalk = blok(index, '<div class="spoedbalk">')
-    header = re.search(r'<header class="site-header">.*?</header>', index, re.S).group(0)
-    overlay = '<div class="nav-overlay" hidden></div>'
-    footer = re.search(r'<footer class="site-footer">.*?</footer>', index, re.S).group(0)
+    banner = blok(index, '<div class="banner">')
+    menu = re.search(r'<nav class="menubalk".*?</nav>', index, re.S).group(0)
+    footer = re.search(r'<footer class="voet">.*?</footer>', index, re.S).group(0)
 
     # ---- de losse pagina's
     delen = []
@@ -90,20 +89,18 @@ def bouw():
             continue
         html = open(pad, encoding='utf-8').read()
         titels[slug] = re.search(r'<title>(.*?)</title>', html, re.S).group(1)
-        kop = blok(html, '<div class="paginakop">')
-        inhoud = pak(html, 'main')
-        delen.append(
-            '<div class="pv-pagina" id="pv-%s" hidden>\n%s\n<main class="pv-main">%s</main>\n</div>'
-            % (slug, kop, inhoud))
+        inhoud = blok(html, '<div class="inhoud"')
+        delen.append('<div class="pv-pagina" id="pv-%s" hidden>\n%s\n</div>'
+                     % (slug, inhoud))
 
-    body = '\n'.join([spoedbalk, header, overlay] + delen + [footer])
+    body = '\n'.join(['<div class="blad">', banner, menu] + delen + [footer, '</div>'])
     body = vervang_paden(body)
 
     extra_css = """
 /* alleen voor deze voorvertoning */
 .pv-pagina[hidden]{display:none}
 .pv-balk{position:fixed;left:50%;transform:translateX(-50%);bottom:16px;z-index:300;
-  background:var(--blue-900);color:#DCEAF8;border-radius:999px;padding:.5rem .95rem;
+  background:var(--blauw-diep);color:#fff;border-radius:999px;padding:.5rem .95rem;
   font:600 .8rem/1.3 var(--sans);box-shadow:0 8px 30px rgba(0,0,0,.3);
   display:flex;align-items:center;gap:.6rem;max-width:calc(100% - 2rem)}
 .pv-balk span{opacity:.75;font-weight:400}
@@ -124,7 +121,7 @@ def bouw():
       var el=document.getElementById('pv-'+s);
       if(el) el.hidden = (s!==slug);
     });
-    document.querySelectorAll('.hoofdnav a').forEach(function(a){
+    document.querySelectorAll('.menubalk a').forEach(function(a){
       var h=a.getAttribute('href')||'';
       if(h===slug+'.html') a.setAttribute('aria-current','page');
       else a.removeAttribute('aria-current');
@@ -132,12 +129,9 @@ def bouw():
     document.title = TITELS[slug] || 'De Korenwolf';
     if(push) history.replaceState(null,'','#'+slug);
     window.scrollTo(0,0);
-    var nav=document.getElementById('hoofdnav');
-    if(nav) nav.classList.remove('open');
-    var ov=document.querySelector('.nav-overlay');
-    if(ov) ov.classList.remove('open');
-    document.body.classList.remove('nav-open');
-    var t=document.querySelector('.nav-toggle');
+    var lijst=document.getElementById('menu');
+    if(lijst) lijst.classList.remove('open');
+    var t=document.querySelector('.menuknop');
     if(t) t.setAttribute('aria-expanded','false');
   }
   document.addEventListener('click', function(e){
@@ -164,7 +158,7 @@ def bouw():
     uit.append('<link rel="preconnect" href="https://fonts.googleapis.com">')
     uit.append('<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>')
     uit.append('<link rel="stylesheet" href="https://fonts.googleapis.com/css2?'
-               'family=Newsreader:opsz,wght@6..72,500&family=Source+Sans+3:wght@400;600;700'
+               'family=Source+Sans+3:wght@400;600;700'
                '&display=swap">')
     uit.append('<style>\n%s\n%s</style>' % (css, extra_css))
     uit.append(body)

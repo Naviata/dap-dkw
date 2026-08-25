@@ -1,18 +1,20 @@
 # Dierenartspraktijk De Korenwolf — website
 
 Website van [Dierenartspraktijk De Korenwolf](http://www.dierenartspraktijkdekorenwolf.nl/)
-in Berg en Terblijt (Zuid-Limburg). Vervangt de Dreamweaver/Spry-site uit 2013.
+in Berg en Terblijt (Zuid-Limburg).
 
-Statische HTML, CSS en een klein beetje JavaScript. Geen framework, geen
-build-stap nodig om de site te draaien, geen CMS.
+Een opfrisbeurt van de Dreamweaver/Spry-site uit 2013: dezelfde opzet en
+dezelfde indeling, maar responsive, beter leesbaar en zonder verouderde
+techniek. Statische HTML en CSS met een klein beetje JavaScript voor het menu.
+Geen framework, geen CMS, geen build-stap nodig om de site te draaien.
 
 ## Mappen
 
 | Map | Wat |
 |---|---|
 | `site/` | **Dit is wat je uploadt.** De volledige site, klaar voor de webhosting. |
-| `bron/` | Alleen de inhoud van elke pagina, zonder menu en voettekst. |
-| `build.py` | Plakt `bron/` + menu + voettekst samen tot `site/`. |
+| `bron/` | Alleen de inhoud van elke pagina, zonder banner, menu en voettekst. |
+| `build.py` | Plakt `bron/` + banner + menu + voettekst samen tot `site/`. |
 | `build_preview.py` | Maakt `voorbeeld.html`: alle 12 pagina's in één bestand. |
 | `origineel/` | Het oorspronkelijke logo, bewaard als bronmateriaal. |
 
@@ -25,20 +27,28 @@ python3 build.py
 # 3. upload de gewijzigde bestanden uit site/
 ```
 
-Menu, voettekst, adres en telefoonnummer staan bovenin `build.py` en worden in
-één keer op alle pagina's doorgevoerd.
+Menu, voettekst, adres, telefoonnummer en de foto per pagina staan bovenin
+`build.py` en worden in één keer op alle pagina's doorgevoerd.
 
-## Uitgangspunten
+## Opzet
 
-- Werkt op telefoon, tablet en desktop.
-- Lettertypes staan in `site/assets/fonts/` — geen verzoek naar Google, dus
-  geen AVG-bezwaar.
-- De Google-kaart op Contact laadt pas nadat de bezoeker daarop klikt.
-- Openingstijden staan op drie plekken: de tabellen in `bron/index.html` en
-  `bron/contact.html`, en het `ROOSTER` in `site/assets/js/site.js` (dat
-  verzorgt de "nu open / nu gesloten"-melding).
+```
+logobanner
+──────────────────────────────────────
+blauwe menubalk (uitklapmenu op telefoon)
+──────────────────────────────────────
+tekst                    │  foto
+──────────────────────────────────────
+voettekst
+```
+
+- Het blauw van het logo (`#558ED5`) voor balken, randen en lijnen; een iets
+  diepere tint (`#2C6CB0`) waar tekst erop staat, vanwege het contrast.
+- Eén lettertype, Source Sans 3, in `site/assets/fonts/` — geen verzoek naar
+  Google, dus geen AVG-bezwaar.
 - Bestandsnamen zijn gelijk aan de oude site, zodat bestaande links en
-  zoekresultaten blijven werken.
+  zoekresultaten blijven werken. `paardentandarts.html` is dus nog steeds de
+  pagina met de spoednummers.
 
 ## Verder lezen
 
