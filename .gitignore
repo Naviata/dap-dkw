@@ -1,0 +1,11 @@
+# Voorvertoning: wordt gegenereerd door build_preview.py (1,3 MB base64)
+voorbeeld.html
+
+# Python
+__pycache__/
+*.pyc
+
+# Windows / editors
+Thumbs.db
+desktop.ini
+.DS_Store
