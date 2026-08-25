@@ -103,9 +103,11 @@ li::marker { color:var(--blauw); }
   background:none; border:0; cursor:pointer;
   white-space:nowrap;
 }
+/* lichte knop met donkerblauwe tekst, zoals de oude menubalk.
+   Wit op #558ED5 haalt maar 3,4:1 en leest te slap. */
 .menubalk a:hover,
-.menubalk .uitklap:hover { background:var(--blauw); color:#fff; }
-.menubalk a[aria-current="page"] { background:var(--blauw); color:#fff; }
+.menubalk .uitklap:hover { background:var(--blauw-licht); color:var(--blauw-diep); }
+.menubalk a[aria-current="page"] { background:var(--blauw-licht); color:var(--blauw-diep); }
 
 .menubalk .uitklap { display:flex; align-items:center; gap:.35rem; }
 .menubalk .uitklap::after {
